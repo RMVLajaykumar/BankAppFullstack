@@ -1,0 +1,16 @@
+.select-container {
+    margin: 0;
+  }
+  
+  .select-container select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 150px;
+  }
+  
+  .select-container select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  

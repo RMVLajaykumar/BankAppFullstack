@@ -1,0 +1,81 @@
+.admin-dashboard {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .view-customers-button {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px; 
+    justify-content: center; 
+  }
+  
+  .input-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .input-container label {
+    margin-right: 8px;
+    font-weight: bold;
+  }
+  
+  .input-container input,
+  .input-container select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    max-width: 180px;
+  }
+  
+  .input-container button {
+    padding: 7px 15px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .input-container button:hover {
+    background-color: #0056b3;
+  }
+  
+ 
+  .table-container {
+    margin-top: 20px;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .filter-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .input-container {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .input-container label,
+    .input-container input,
+    .input-container select {
+      width: 100%;
+    }
+  }
+  

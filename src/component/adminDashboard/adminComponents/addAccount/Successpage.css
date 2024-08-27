@@ -1,0 +1,14 @@
+
+.success-page {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .success-page h1 {
+    color: green;
+  }
+  
+  .success-page p {
+    font-size: 18px;
+  }
+  

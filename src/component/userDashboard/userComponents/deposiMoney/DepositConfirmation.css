@@ -1,0 +1,55 @@
+
+
+.transaction-confirmation {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transaction-confirmation h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .transaction-confirmation p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .transaction-confirmation .buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .transaction-confirmation .buttons .btn {
+    flex: 1;
+  }
+  
+  .transaction-confirmation .buttons .btn-success {
+    background-color: #28a745;
+    border: none;
+  }
+  
+  .transaction-confirmation .buttons .btn-danger {
+    background-color: #dc3545;
+    border: none;
+  }
+  
+  .transaction-confirmation .btn:hover {
+    opacity: 0.9;
+  }
+  
+  .transaction-confirmation .btn-success:hover {
+    background-color: #218838;
+  }
+  
+  .transaction-confirmation .btn-danger:hover {
+    background-color: #c82333;
+  }
+  

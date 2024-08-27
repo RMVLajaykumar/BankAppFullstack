@@ -1,0 +1,84 @@
+
+.view-transactions-container {
+  position: relative;
+}
+
+.view-transactions-container .button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.view-transactions-container .button:hover {
+  background-color: darkred; 
+}
+
+
+.passbook-heading {
+  text-align: center;
+  color: #007bff; 
+  margin-bottom: 20px;
+}
+
+
+.view-passbook {
+  padding: 20px;
+}
+
+
+.passbook-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.passbook-table th,
+.passbook-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.passbook-table th {
+  background-color: #007bff; 
+  color: white;
+}
+
+.passbook-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.passbook-table tr:hover {
+  background-color: #ddd;
+}
+
+
+.passbook-modal .modal-content {
+  padding: 20px;
+}
+
+.passbook-modal .modal-header {
+  background-color: #007bff; 
+  color: white;
+}
+
+.passbook-modal .modal-footer {
+  text-align: right;
+}
+
+.passbook-modal .modal-footer button {
+  background-color: #007bff; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.passbook-modal .modal-footer button:hover {
+  background-color: #0056b3; 
+}

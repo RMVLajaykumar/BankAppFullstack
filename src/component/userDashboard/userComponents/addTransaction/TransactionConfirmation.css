@@ -1,0 +1,42 @@
+.transaction-confirmation {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  .transaction-confirmation h2 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+  
+  .transaction-confirmation p {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .transaction-confirmation .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .transaction-confirmation .buttons .btn {
+    width: 120px;
+  }
+  
+  .transaction-confirmation .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .transaction-confirmation .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  

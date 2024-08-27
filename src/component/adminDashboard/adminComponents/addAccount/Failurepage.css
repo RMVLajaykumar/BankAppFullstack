@@ -1,0 +1,14 @@
+
+.failure-page {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .failure-page h1 {
+    color: red;
+  }
+  
+  .failure-page p {
+    font-size: 18px;
+  }
+  
