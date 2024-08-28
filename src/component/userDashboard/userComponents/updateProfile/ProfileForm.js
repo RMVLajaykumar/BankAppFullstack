@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { getUserId, updateUserProfile } from '../../../../services/CustomerServices';
+import { getUserId, updateUserProfile } from '../../../../services/customerServices';
 import { successToast, errorToast } from '../../../utils/toast'; 
 import { useNavigate } from 'react-router-dom';
 import './ProfileUpdate.css';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { ToastContainer } from 'react-toastify';
-import { verifyUser } from '../../../../services/AuthServices';
+import { verifyUser } from '../../../../services/authServices';
+import { NotFoundError } from '../../../utils/errors/APIError';
+import validator from 'validator';
+
 
 const UserDetailsForm = ({ email }) => {
   const navigate = useNavigate();
+  const [error,setError]=useState(false);
   const[isUser,setIsUser]=useState();
   const [formData, setFormData] = useState({
     firstName: '',
@@ -37,9 +41,15 @@ const UserDetailsForm = ({ email }) => {
           firstName: response.userName.split(" ")[0],
           lastName: response.userName.split(" ")[1],
           email: response.email
+
+          
+
         });
       } catch (error) {
-        console.error('Error fetching user details:', error);
+        const statusCode = error.statusCode || "Unknown";
+        const errorMessage = error.message || "An error occurred";
+        const errorType = error.errorType || "Error";
+        errorToast(`Error ${statusCode}: ${errorType}` );
       }
     };
 
@@ -56,17 +66,29 @@ const UserDetailsForm = ({ email }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validator.isAlpha(formData.firstName)) {
+      errorToast("First Name should contain only alphabetic characters");
+      return;
+    }
+
+    if (!validator.isAlpha(formData.lastName)) {
+      errorToast("Last Name should contain only alphabetic characters");
+      return;
+    }
     try {
       await updateUserProfile(formData);
       successToast('User details updated successfully!');
     } catch (error) {
-      console.error('Error updating user details:', error);
-      errorToast('Failed to update user details.');
+      setError(true)
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorType}` );
     }
   };
 
   const handleBackClick = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   return (
@@ -75,10 +97,12 @@ const UserDetailsForm = ({ email }) => {
         <>
         <button onClick={handleBackClick} className="back-button">Back</button>
       <h2 className="form-title">Update User Details</h2>
-      <form onSubmit={handleSubmit} className="user-form">
+      {!error && (<> 
+        <form onSubmit={handleSubmit}  disabled={error} className="user-form">
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
           <input
+           required
             type="text"
             id="firstName"
             name="firstName"
@@ -91,6 +115,7 @@ const UserDetailsForm = ({ email }) => {
         <div className="form-group">
           <label htmlFor="lastName">Last Name</label>
           <input
+            required
             type="text"
             id="lastName"
             name="lastName"
@@ -117,6 +142,13 @@ const UserDetailsForm = ({ email }) => {
           Update
         </button>
       </form>
+      </>)}
+      {error && (
+      <p style={{color:"red"}}> 
+      you cannot update details since you are not a customer
+      </p>
+      )}
+      
       <ToastContainer />
         </>
       )}

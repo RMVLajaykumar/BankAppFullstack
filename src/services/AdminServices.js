@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NotFoundError,InternalServerError,AlreadyAssigned } from "../component/utils/errors/APIError";
 export const viewAllCustomers=async (page,size,sortBy,direction)=>{
     try{
         const response=await axios.get(`http://localhost:8082/api/auth/admin`,{
@@ -9,12 +10,18 @@ export const viewAllCustomers=async (page,size,sortBy,direction)=>{
         })
         return response.data
     }
-    catch(error){
-        console.log(error);
-    }
-}
+    catch (error) {
+        if(error && error.response){
+          const {status,message}=error.response.data;
+          if(status===404){
+            throw new NotFoundError(message);
+          }
+          throw new InternalServerError("Internal Server Error");
+        }
+      }
+    };
 
-export const ActivateCustomer = async (customerID) => {
+export const activateCustomer = async (customerID) => {
     try {
         const response = await axios.put(
            `http://localhost:8082/api/auth/admin/customers/active/${customerID}`, 
@@ -27,11 +34,20 @@ export const ActivateCustomer = async (customerID) => {
         );
         return response.data;
     } catch (error) {
-        console.error('Error activating customer:', error);
-    }
-};
+        if(error && error.response){
+          const {status,message}=error.response.data;
+          if(status===404){
+            throw new NotFoundError(message);
+          }
+          if(status===409){
+            throw new AlreadyAssigned(message);
+          }
+          throw new InternalServerError("Internal Server Error");
+        }
+      }
+    };
 
-export const DeactivateCustomer = async (customerID) => {
+export const deactivateCustomer = async (customerID) => {
     try {
         const response = await axios.delete(
             `http://localhost:8082/api/auth/admin/customers/${customerID}`,
@@ -42,10 +58,19 @@ export const DeactivateCustomer = async (customerID) => {
             }
         );
         return response.data;
-    } catch (error) {
-        console.error('Error deactivating customer:', error.response ? error.response.data : error.message);
-    }
-};
+    }catch (error) {
+        if(error && error.response){
+          const {status,message}=error.response.data;
+          if(status===404){
+            throw new NotFoundError(message);
+          }
+          if(status===409){
+            throw new AlreadyAssigned(message);
+          }
+          throw new InternalServerError("Internal Server Error");
+        }
+      }
+    };
 
 
 export const addCustomer = async (userID, firstName, lastName) => {
@@ -61,11 +86,18 @@ export const addCustomer = async (userID, firstName, lastName) => {
         );
         return response.data;
     } catch (error) {
-        console.error('Error while adding customer:', error);
-        throw error; 
-    }
-};
-
+        if(error && error.response){
+          const {status,message}=error.response.data;
+          if(status===404){
+            throw new NotFoundError(message);
+          }
+          if(status===409){
+            throw new AlreadyAssigned(message);
+          }
+          throw new InternalServerError("Internal Server Error");
+        }
+      }
+    };
 
 
 export const viewAllTransactions=async(from,to,page,size,sortBy,direction)=>{
@@ -78,10 +110,16 @@ export const viewAllTransactions=async(from,to,page,size,sortBy,direction)=>{
         })
         return response.data
     }
-    catch(error){
-        console.log(error);
-    }
-}
+    catch (error) {
+        if(error && error.response){
+          const {status,message}=error.response.data;
+          if(status===404){
+            throw new NotFoundError(message);
+          }
+          throw new InternalServerError("Internal Server Error");
+        }
+      }
+    };
 
 export const checkUserIDExists = async (userID) => {
     try {
@@ -95,9 +133,15 @@ export const checkUserIDExists = async (userID) => {
       );
       return response.data;
     }   catch (error) {
-        console.log(error);
-    }
-  };
+        if(error && error.response){
+          const {status,message}=error.response.data;
+          if(status===404){
+            throw new NotFoundError(message);
+          }
+          throw new InternalServerError("Internal Server Error");
+        }
+      }
+    };
 
   export const addBankAccount = async (customerId, bankId) => {
     try {
@@ -112,8 +156,15 @@ export const checkUserIDExists = async (userID) => {
         );
         return response.data;
     } catch (error) {
-        console.error('Error adding bank account:', error.response ? error.response.data : error.message);
-        throw error;
-    }
-};
-  
+        if(error && error.response){
+          const {status,message}=error.response.data;
+          if(status===404){
+            throw new NotFoundError(message);
+          }
+          if(status===409){
+            throw new AlreadyAssigned(message);
+          }
+          throw new InternalServerError("Internal Server Error");
+        }
+      }
+    };

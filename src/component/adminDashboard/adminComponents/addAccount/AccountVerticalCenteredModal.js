@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';  
-import { addBankAccount } from '../../../../services/AdminServices';
+import { addBankAccount } from '../../../../services/adminServices';
 
 const AccountVerticalCenteredModal = ({ show, onHide }) => {
   const [customerId, setCustomerId] = useState('');

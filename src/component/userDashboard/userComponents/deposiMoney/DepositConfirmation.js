@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { depositMoney } from '../../../../services/CustomerServices';
+import { depositMoney } from '../../../../services/customerServices';
 import { successToast, errorToast } from '../../../utils/toast';
 import { Button } from 'react-bootstrap';
 import './DepositConfirmation.css'
 import 'react-toastify/dist/ReactToastify.css'; 
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from 'react';
-import { verifyUser } from '../../../../services/AuthServices';
+import { verifyUser } from '../../../../services/authServices';
 
 const DepositConfirmation = () => {
   const { accountNumber, amount } = useParams();
@@ -19,15 +19,18 @@ const DepositConfirmation = () => {
       await depositMoney(accountNumber, amount);
       successToast('Deposit successful!');
       setTimeout(() => {
-        navigate(`/user-dashboard/${localStorage.getItem("id")}`);
+        navigate(-1);
       }, 1000);
     } catch (error) {
-      errorToast('Deposit failed.');
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorType}` );
     }
   };
 
   const handleCancel = () => {
-    navigate(`/user-dashboard/${localStorage.getItem("id")}`);
+    navigate(-1);
   };
   useEffect(() => {
     const checkUser = async () => {

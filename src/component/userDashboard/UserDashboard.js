@@ -5,7 +5,7 @@ import './UserDashboard.css';
 import ViewPassbookModal from './userComponents/ViewPassbook/ViewPassbookModal'; 
 import AddTransactionModal from './userComponents/addTransaction/AddTransactionModal';
 import DepositModal from '../userDashboard/userComponents/deposiMoney/DepositMoneyModal'
-import { verifyUser } from '../../services/AuthServices';
+import { verifyUser } from '../../services/authServices';
 import { useEffect } from 'react';
 const UserDashboard = () => {
   const[isUser,setIsUser]=useState();
@@ -20,6 +20,7 @@ const UserDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem("email");
     navigate('/');
   };
   useEffect(() => {
@@ -82,6 +83,8 @@ const UserDashboard = () => {
 
       <AddTransactionModal
         show={showTransactionModal}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
         handleClose={() => setShowTransactionModal(false)}
       />
 

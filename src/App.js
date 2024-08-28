@@ -32,8 +32,6 @@ function App() {
       <Route exact path='/failure' element={<FailurePage />} />
       <Route exact path='/add-account/confirmation/:customerId/:bankId' element={<ConfirmationPage />} />
       <Route path="/user-dashboard/view-passbook/:accountNumber" element={<ViewPassbook />} />
-      {/* <Route path="/user-dashboard/new-transaction" element={<AddTransactionModal show={true} />} /> */}
-      {/* <Route path='/user-dashboard/deposit-money' element={<DepositMoneyModal show={true} />}/> */}
       <Route path="/user-dashboard/transaction-confirmation/:senderAccount/:receiverAccount/:amount" element={<TransactionConfirmation />} />
       <Route path="/deposit-confirmation/:accountNumber/:amount" element={<DepositConfirmation />} />
       <Route path="/user-dashboard/update-profile" element={<ProfileForm />} />

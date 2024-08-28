@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import './Register.css';
-import { signup } from "../services/AuthServices";
+import { signup } from "../services/authServices";
 import { successToast, errorToast } from "./utils/toast";
 import { ToastContainer } from 'react-toastify';
+import validator from "validator";
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,18 +19,29 @@ const Register = () => {
     const password = formRef.current.querySelector("input[type='password']").value;
     const admin = formRef.current.querySelector("input[name='role']").checked;
 
+    if (!validator.isEmail(email)) {
+      errorToast("Invalid email format");
+      return;
+    }
+
+    if (!validator.isStrongPassword(password, { minLength: 6, minLowercase: 1, minUppercase: 0, minNumbers: 1, minSymbols: 1 })) {
+      errorToast("Password must be at least 6 characters long, contain at least one symbol ,one lowercase letter, and one number.");
+      return;
+    }
     try {
       const response = await signup(name, email, password, admin);
 
-      if (response && response.status === 201) { 
+      if (response) { 
         successToast("Account created successfully. Please log in.");
         setTimeout(() => {
           navigate("/");
         }, 1000); 
       }
     } catch (error) {
-      console.error("An error occurred during registration:", error);
-      errorToast("Failed to create account. Please try again.");
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorType} :${errorMessage}` );
     }
   };
 

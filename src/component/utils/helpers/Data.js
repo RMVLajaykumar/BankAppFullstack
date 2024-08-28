@@ -1,12 +1,12 @@
-import { ActivateCustomer,DeactivateCustomer,viewAllCustomers} from '../../../services/AdminServices'
+import { activateCustomer,deactivateCustomer,viewAllCustomers} from '../../../services/adminServices'
 
 export const sanitizeData = (data, keysToBeIncluded, setCustomers) => {
     const handleAction = async (customerId, isActive) => {
         try {
             if (isActive) {
-                await DeactivateCustomer(customerId);
+                await deactivateCustomer(customerId);
             } else {
-                await ActivateCustomer(customerId);
+                await activateCustomer(customerId);
             }
             const updatedData = await viewAllCustomers();
             if (updatedData && updatedData.content) {

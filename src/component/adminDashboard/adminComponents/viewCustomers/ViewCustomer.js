@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { sanitizeData } from "../../../utils/helpers/Data";
-import { viewAllCustomers as fetchAllCustomers } from "../../../../services/AdminServices";
+import { viewAllCustomers as fetchAllCustomers } from "../../../../services/adminServices";
 import Table from '../../../../sharedComponents/table/Table';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Filter from "../../../../sharedComponents/filter/Filter";
 import '../../../../sharedComponents/filter/Filter.css';
-import { verifyAdmin } from "../../../../services/AuthServices";
-
+import { verifyAdmin } from "../../../../services/authServices";
+import { errorToast } from "../../../utils/toast";
+import { ToastContainer } from "react-toastify";
 
 const ViewCustomers = () => {
   const [isAdmin, setIsAdmin] = useState();
@@ -34,13 +35,13 @@ const ViewCustomers = () => {
         setCustomers([]);
       }
     } catch (error) {
-      console.error('Error fetching customers:', error.message);
-      if (error.response) {
-        console.error('Response data:', error.response.data);
-      }
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorType}` );
+      
     }
   };
-
   useEffect(() => {
     getAllCustomers();
   }, [page, size, sortBy, direction]);
@@ -65,7 +66,7 @@ const ViewCustomers = () => {
       {isAdmin && (
         <>
           <div>
-            <button className="back-button" onClick={() => navigate(`/admin-dashboard`)}>
+            <button className="back-button" onClick={() => navigate(-1)}>
               Back
             </button>
           </div>
@@ -84,6 +85,7 @@ const ViewCustomers = () => {
            setSearchParams={setSearchParams}
 
           />
+          <ToastContainer/>
         </>
       )}
     </div>

@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
-import { signin } from "../services/AuthServices";
+import { signin } from "../services/authServices";
 import { successToast, errorToast } from "./utils/toast";
 import { ToastContainer } from 'react-toastify';
-import { UnAuthorized } from "./utils/errors/APIError";
 import { Link } from "react-router-dom";
-import { getUserId } from "../services/CustomerServices";
+import { getUserId } from "../services/customerServices";
+import validator from "validator";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,6 +18,13 @@ const Login = () => {
 
     const email = formRef.current.querySelector("input[type='email']").value;
     const password = formRef.current.querySelector("input[type='password']").value;
+
+    if (!validator.isEmail(email)) {
+      errorToast("Invalid email format");
+      return;
+    }
+
+
 
     try {
       const response = await signin(email, password);
@@ -38,15 +46,17 @@ const Login = () => {
           successToast(" User Successfully logged in");
           const user=await getUserId(response.data.email)
           setTimeout(() => {
-            localStorage.setItem('id',user.userId)
+            // localStorage.setItem('id',user.userId)
             localStorage.setItem("email",user.email)
           navigate(`/user-dashboard/${user.userId}`);
         }, 1000); 
         }
       }
     } catch (error) {
-      console.error("An error occurred during sign-in:", error);
-      errorToast("Failed to login. Check your email and password.");
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorMessage}: ${errorType}` );
       
     }
   };
@@ -54,7 +64,8 @@ const Login = () => {
   return (
     <div className="container">
       <form className="form" ref={formRef}>
-        <p className="form-title">Login Your Account</p>
+
+        <p className="form-title">Welocome to Pinacale Bank <br/>Login Your Account</p>
         <div className="login-input-container">
           <input type="email" placeholder="Enter email" />
         </div>

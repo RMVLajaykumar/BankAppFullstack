@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Modal as BootstrapModal, Button, Form } from 'react-bootstrap';
-import { fetchAllAccounts } from '../../../../services/CustomerServices';
+import { fetchAllAccounts } from '../../../../services/customerServices';
 import { useNavigate } from 'react-router-dom';
+import { errorToast } from '../../../utils/toast';
+import { ToastContainer } from 'react-toastify';
 
 const DepositMoneyModal = ({ show, handleClose }) => {
   const [accounts, setAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState('');
   const [amount, setAmount] = useState('');
   const navigate = useNavigate();
+  const[error,setError]=useState(false);
 
   useEffect(() => {
     const getAllAccounts = async () => {
@@ -24,7 +27,11 @@ const DepositMoneyModal = ({ show, handleClose }) => {
           console.error('Unexpected response structure:', response);
         }
       } catch (error) {
-        console.error('Error fetching accounts:', error);
+        setError(true)
+        const statusCode = error.statusCode || "Unknown";
+        const errorMessage = error.message || "An error occurred";
+        const errorType = error.errorType || "Error";
+        errorToast(`Error ${statusCode}: ${errorType}` );
       }
     };
     getAllAccounts();
@@ -45,7 +52,8 @@ const DepositMoneyModal = ({ show, handleClose }) => {
         <BootstrapModal.Title>Deposit Money</BootstrapModal.Title>
       </BootstrapModal.Header>
       <BootstrapModal.Body>
-        <Form>
+        {!error && (<>
+          <Form>
           <Form.Group controlId="formAccount">
             <Form.Label>Select Account</Form.Label>
             <Form.Control
@@ -68,22 +76,32 @@ const DepositMoneyModal = ({ show, handleClose }) => {
           <Form.Group controlId="formAmount">
             <Form.Label>Amount</Form.Label>
             <Form.Control
+            required
               type="number"
               placeholder="Enter amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
           </Form.Group>
+
         </Form>
+        </>)}
+        {error && (
+          <p style={{color:"red"}}>
+            You dont have account to depositMoney!
+          </p>
+        )}
+        
       </BootstrapModal.Body>
       <BootstrapModal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleDeposit}>
+        <Button variant="primary" onClick={handleDeposit} disabled={error}>
           Deposit
         </Button>
       </BootstrapModal.Footer>
+      <ToastContainer/>
     </BootstrapModal>
   );
 };

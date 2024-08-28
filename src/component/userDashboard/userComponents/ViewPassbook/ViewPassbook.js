@@ -6,9 +6,10 @@ import Table from "../../../../sharedComponents/table/Table";
 import "./ViewPassbook.css";
 import { sanitizeTransactionData } from "../../../utils/helpers/Data";
 import ViewPassbookFilter from "../../../adminDashboard/adminComponents/viewTransaction/TransactionFilter";
-import { getPassbook as fetchPassbook } from "../../../../services/CustomerServices";
-import { verifyUser } from "../../../../services/AuthServices";
-
+import { getPassbook as fetchPassbook } from "../../../../services/customerServices";
+import { verifyUser } from "../../../../services/authServices";
+import { errorToast } from "../../../utils/toast";
+import { ToastContainer } from "react-toastify";
 
 const ViewPassbook = () => {
   const routeParams=useParams();
@@ -45,7 +46,10 @@ const ViewPassbook = () => {
         setTransactions([]);
       }
     } catch (error) {
-      console.error("Error fetching customers:", error);
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorType}` );
     }
   };
 
@@ -75,7 +79,7 @@ const ViewPassbook = () => {
             <button
               className="button"
               onClick={() => {
-                navigate(`/user-dashboard/${localStorage.getItem("id")}`);
+                navigate(-1);
               }}
             >
               Back
@@ -92,6 +96,7 @@ const ViewPassbook = () => {
             searchParams={searchParams}
             setSearchParams={setSearchParams}
           />
+          <ToastContainer/>
         </>
       )}
       

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { viewAllTransactions } from '../../../../services/AdminServices';
+import { viewAllTransactions } from '../../../../services/adminServices';
 import Table from '../../../../sharedComponents/table/Table';
 import { useNavigate,useSearchParams } from 'react-router-dom';
 import { sanitizeTransactionData } from '../../../utils/helpers/Data';
-import { verifyAdmin } from '../../../../services/AuthServices';
+import { verifyAdmin } from '../../../../services/authServices';
 import TransactionFilter from './TransactionFilter'; 
+import { errorToast } from '../../../utils/toast';
+import { ToastContainer } from 'react-toastify';
+
 
 const ViewTransaction = () => {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -28,10 +31,14 @@ const ViewTransaction = () => {
             } else {
                 setTransactions([]);
             }
-        } catch (error) {
-            console.error("Error fetching transactions:", error);
-        }
-    };
+        }catch (error) {
+            const statusCode = error.statusCode || "Unknown";
+            const errorMessage = error.message || "An error occurred";
+            const errorType = error.errorType || "Error";
+            errorToast(`Error ${statusCode}: ${errorType}` );
+            
+          }
+        };
 
     useEffect(() => {
         getAllTransactions();
@@ -72,6 +79,7 @@ const ViewTransaction = () => {
                          searchParams={searchParams}
                          setSearchParams={setSearchParams}
                     />
+                    <ToastContainer/>
                 </>
              
             )}

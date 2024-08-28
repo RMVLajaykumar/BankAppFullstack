@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyVerticallyCenteredModal from '../adminDashboard/adminComponents/addCustomer/MyVerticallyCenteredModal';
 import AccountVerticalCenteredModal from '../adminDashboard/adminComponents/addAccount/AccountVerticalCenteredModal'; 
-import { checkUserIDExists, addBankAccount } from '../../services/AdminServices'; 
+import { checkUserIDExists, addBankAccount } from '../../services/adminServices'; 
 import './AdminDashboard.css';
-import { verifyAdmin } from '../../services/AuthServices';
+import { verifyAdmin } from '../../services/authServices';
 import { successToast, errorToast } from '../utils/toast';
+import { ToastContainer } from 'react-toastify';
 
 const AdminDashboard = () => {
   const [isAdmin, setIsAdmin] = useState();
@@ -35,7 +36,10 @@ const AdminDashboard = () => {
         alert('User ID does not exist.');
       }
     } catch (error) {
-      console.error('Error checking user ID:', error);
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorType}` );
     } finally {
       setModalShow(false); 
     }
@@ -50,8 +54,11 @@ const AdminDashboard = () => {
         errorToast('Failed to add account');
       }
     } catch (error) {
-      console.error('Error adding bank account:', error);
-      errorToast('Failed to add account');
+      const statusCode = error.statusCode || "Unknown";
+      const errorMessage = error.message || "An error occurred";
+      const errorType = error.errorType || "Error";
+      errorToast(`Error ${statusCode}: ${errorType}` );
+      alert("user id does not exist")
     } finally {
       setAccountModalShow(false); 
     }
@@ -125,6 +132,7 @@ const AdminDashboard = () => {
             onHide={() => setAccountModalShow(false)}
             onSubmit={handleAddBankAccount}
           />
+          <ToastContainer/>
         </>
       )}
     </div>

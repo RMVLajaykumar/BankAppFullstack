@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ValidationError,InternalServerError,UnAuthorized,NotFoundError } from "../component/utils/errors/APIError";
 export const signin=async(email,password)=>{
     try{
     const response = await axios.post(`http://localhost:8082/api/auth/signin`,{
@@ -7,10 +8,25 @@ export const signin=async(email,password)=>{
     });
     return response;
 }
-catch(error){
-    console.log("error occured while authentication")
+catch (error) {
+  if (error.response) {
+    const { status, message } = error.response.data;
+    console.log(error.response.data)
+    if (status === 400) {
+      throw new ValidationError(message || "Internal Server Error");
+    }
+    if (status === 404) {
+      throw new NotFoundError(message || "Not Found");
+    }
+    if (status === 401) {
+      throw new UnAuthorized(message || "Unauthorized");
+    }
+  } else {
+    throw new InternalServerError("Internal Server Error");
+  }
 }
-}
+};
+
 export const verifyAdmin = async (token) => {
     try {
       const response = await axios.get(`http://localhost:8082/api/auth/verifyAdmin`, {
@@ -20,12 +36,18 @@ export const verifyAdmin = async (token) => {
       });
       return response;
     } catch (error) {
-      console.error(error);
-      return null;
+      if (error.response) {
+        const { status, message } = error.response.data;
+        console.log(error.response.data)
+        if (status === 401) {
+          throw new UnAuthorized(message || "Unauthorized");
+        }
+      } else {
+        throw new InternalServerError("Internal Server Error");
+      }
     }
-  };
+    };
   export const verifyUser = async (token) => {
-    // const token=localStorage.getItem("auth");
     try {
       const response = await axios.get(`http://localhost:8082/api/auth/verifyUser`, {
         params: {
@@ -33,11 +55,18 @@ export const verifyAdmin = async (token) => {
         },
       });
       return response;
-    } catch (error) {
-      console.error(error);
-      return null;
+    }catch (error) {
+      if (error.response) {
+        const { status, message } = error.response.data;
+        console.log(error.response.data)
+        if (status === 401) {
+          throw new UnAuthorized(message || "Unauthorized");
+        }
+      } else {
+        throw new InternalServerError("Internal Server Error");
+      }
     }
-  };
+    };
 
   export const signup = async (name, email, password, role) => {
     try {
@@ -49,7 +78,20 @@ export const verifyAdmin = async (token) => {
       });
       return response;
     } catch (error) {
-      console.log("Error occurred while registering:", error);
-      throw error;
+      if (error.response) {
+        const { status, message } = error.response.data;
+        console.log(error.response.data)
+        if (status === 400) {
+          throw new ValidationError(message || "Internal Server Error");
+        }
+        if (status === 404) {
+          throw new NotFoundError(message || "Not Found");
+        }
+        if (status === 401) {
+          throw new UnAuthorized(message || "Unauthorized");
+        }
+      } else {
+        throw new InternalServerError("Internal Server Error");
+      }
     }
   };
