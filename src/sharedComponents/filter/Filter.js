@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import "./Filter.css";
 
 const Filter = (props) => {
   const { data,searchParams,setSearchParams} = props;
+  const [sortBy,setSortBy]=useState(searchParams.get("sortBy")|| "Sort By");
+  const [direction,setDirection]=useState(searchParams.get("direction")|| "Direction");
+
+  useEffect(()=>
+  {
+    setSortBy(searchParams.get("sortBy")|| "Sort By")
+    setDirection(searchParams.get("direction")|| "Direction")
+  },[searchParams]
+  )
 
   const options = ["firstName", "lastName"].map((key) => (
     <option key={key} value={key}>
@@ -24,8 +33,8 @@ const Filter = (props) => {
 
   
   const reset = () => {
-    document.querySelector("select[name='sortBy']").value = "Sort By";
-    document.querySelector("select[name='direction']").value = "Direction";
+    setSortBy("Sort By")
+        setDirection("Direction")
     setSearchParams([]);
 
   };
@@ -34,14 +43,16 @@ const Filter = (props) => {
     <div className="filter-container">
       <div className="input-container">
         <label>Sort By:</label>
-        <select name="sortBy">
+        <select name="sortBy" value={sortBy} onChange={
+                  (e)=>setSortBy(e.target.value) }>
           <option selected>Sort By</option>
           {options}
         </select>
       </div>
       <div className="input-container">
         <label>Direction:</label>
-        <select name="direction">
+        <select name="direction"  value={direction} onChange={
+                  (e)=>setDirection(e.target.value) }>
           <option selected>Direction</option>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>

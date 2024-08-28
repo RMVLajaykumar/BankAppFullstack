@@ -28,6 +28,11 @@ const Register = () => {
       errorToast("Password must be at least 6 characters long, contain at least one symbol ,one lowercase letter, and one number.");
       return;
     }
+    if (!validator.isAlpha(name)) {
+      errorToast("Last Name should contain only alphabetic characters");
+      return;
+    }
+
     try {
       const response = await signup(name, email, password, admin);
 
