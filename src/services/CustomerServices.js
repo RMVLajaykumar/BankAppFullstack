@@ -3,6 +3,9 @@ import { NotFoundError,ValidationError,AlreadyAssigned,InternalServerError } fro
 
 export const getUserId = async(email) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
       console.log(email)
         const response = await axios.get(`http://localhost:8082/api/auth/getCurrentUser`,{
             params:{
@@ -27,6 +30,9 @@ catch (error) {
 
 export const fetchAllAccounts = async () => {
   try {
+    if(!localStorage.getItem("authToken")){
+      throw new NotFoundError("Token is not present");
+    }
     const response = await axios.get('http://localhost:8082/api/auth/customer/accounts', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('authToken')}`
@@ -63,6 +69,9 @@ export const getPassbook = async (
   accountNumber
 ) => {
     try{
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
       console.log(accountNumber)
         const response = await axios.get(`http://localhost:8082/api/auth/customer/passbook/${accountNumber}`,{
             headers:{
@@ -98,6 +107,9 @@ export const getPassbook = async (
 
 export const performTransaction = async (senderAccount, receiverAccount, amount) => {
   try {
+    if(!localStorage.getItem("authToken")){
+      throw new NotFoundError("Token is not present");
+    }
     const response = await axios.post(
       'http://localhost:8082/api/auth/customer/transactions',
       {}, 
@@ -132,6 +144,9 @@ export const performTransaction = async (senderAccount, receiverAccount, amount)
 };
 export const depositMoney = async (accountNumber, amount) => {
   try {
+    if(!localStorage.getItem("authToken")){
+      throw new NotFoundError("Token is not present");
+    }
     const response = await axios.put(
       `http://localhost:8082/api/auth/customer/transactions/${accountNumber}/deposit`,
       {},
@@ -162,6 +177,9 @@ export const depositMoney = async (accountNumber, amount) => {
 
 export const updateUserProfile = async (formData) => {
   try {
+    if(!localStorage.getItem("authToken")){
+      throw new NotFoundError("Token is not present");
+    }
     const response = await axios.put('http://localhost:8082/api/auth/customer/profile', formData, {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('authToken')

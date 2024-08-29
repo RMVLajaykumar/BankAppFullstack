@@ -29,6 +29,9 @@ catch (error) {
 
 export const verifyAdmin = async (token) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
       const response = await axios.get(`http://localhost:8082/api/auth/verifyAdmin`, {
         params: {
           auth:token
@@ -49,6 +52,9 @@ export const verifyAdmin = async (token) => {
     };
   export const verifyUser = async (token) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
       const response = await axios.get(`http://localhost:8082/api/auth/verifyUser`, {
         params: {
           auth:token

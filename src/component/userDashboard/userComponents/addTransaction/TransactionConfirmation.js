@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './TransactionConfirmation.css'
 import { verifyUser } from '../../../../services/authServices';
 import { useEffect } from 'react';
+import validator from 'validator';
 
 const TransactionConfirmation = () => {
   const { senderAccount, receiverAccount, amount } = useParams();
@@ -20,6 +21,15 @@ const TransactionConfirmation = () => {
       return ;
     
     }
+    if(!validator.isEmpty(receiverAccount) && !validator.isNumeric(receiverAccount)){
+      errorToast("Receiver Account Number should be numeric and not empty ");
+      return;
+    }
+    if(!validator.isNumeric(amount)){
+      errorToast("amount should be in number");
+      return;
+    }
+
     try {
       
       await performTransaction(senderAccount, receiverAccount, amount);

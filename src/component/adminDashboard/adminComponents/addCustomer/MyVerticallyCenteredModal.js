@@ -12,6 +12,9 @@ function MyVerticallyCenteredModal({ show, onHide, onSubmit }) {
       onSubmit(userID); 
       setUserID(''); 
     }
+    else{
+      alert('Please fill out all fields.');
+    }
   };
 
   return (

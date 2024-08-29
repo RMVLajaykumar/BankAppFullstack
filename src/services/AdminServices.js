@@ -2,6 +2,9 @@ import axios from "axios";
 import { NotFoundError,InternalServerError,AlreadyAssigned } from "../component/utils/errors/APIError";
 export const viewAllCustomers=async (page,size,sortBy,direction)=>{
     try{
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
         const response=await axios.get(`http://localhost:8082/api/auth/admin`,{
             headers:{
                 authorization:`Bearer ${localStorage.getItem('authToken')}`
@@ -23,6 +26,9 @@ export const viewAllCustomers=async (page,size,sortBy,direction)=>{
 
 export const activateCustomer = async (customerID) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
         const response = await axios.put(
            `http://localhost:8082/api/auth/admin/customers/active/${customerID}`, 
             {}, 
@@ -49,6 +55,9 @@ export const activateCustomer = async (customerID) => {
 
 export const deactivateCustomer = async (customerID) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
         const response = await axios.delete(
             `http://localhost:8082/api/auth/admin/customers/${customerID}`,
             {
@@ -75,6 +84,9 @@ export const deactivateCustomer = async (customerID) => {
 
 export const addCustomer = async (userID, firstName, lastName) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
         const response = await axios.post(
             `http://localhost:8082/api/auth/admin/${userID}`,
             { firstName, lastName },
@@ -102,6 +114,9 @@ export const addCustomer = async (userID, firstName, lastName) => {
 
 export const viewAllTransactions=async(from,to,page,size,sortBy,direction)=>{
     try{
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
         const response=await axios.get(`http://localhost:8082/api/auth/admin/transactions`,{
             headers:{
                 authorization:`Bearer ${localStorage.getItem('authToken')}`
@@ -123,6 +138,9 @@ export const viewAllTransactions=async(from,to,page,size,sortBy,direction)=>{
 
 export const checkUserIDExists = async (userID) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
       const response = await axios.get(
         `http://localhost:8082/api/auth/admin/users/${userID}`,
         {
@@ -145,6 +163,9 @@ export const checkUserIDExists = async (userID) => {
 
   export const addBankAccount = async (customerId, bankId) => {
     try {
+      if(!localStorage.getItem("authToken")){
+        throw new NotFoundError("Token is not present");
+      }
         const response = await axios.post(
             `http://localhost:8082/api/auth/admin/${customerId}/account/${bankId}`,
             {},

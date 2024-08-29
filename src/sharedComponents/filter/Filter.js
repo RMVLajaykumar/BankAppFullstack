@@ -25,8 +25,12 @@ const Filter = (props) => {
     const directionValue = document.querySelector("select[name='direction']").value;
 
     const updatedParams=Object.fromEntries(searchParams);
-    updatedParams.sortBy=sortByValue;
-    updatedParams.direction=directionValue;
+    if (directionValue !== "Direction") {
+      updatedParams.direction=directionValue;
+  }
+  if (sortByValue !== "Sort By") {
+      updatedParams.sortBy=sortByValue;
+  }
     setSearchParams(updatedParams);
 
   };

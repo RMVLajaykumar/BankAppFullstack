@@ -14,33 +14,28 @@ const TransactionFilter = ({ data,searchParams,setSearchParams }) => {
         setDirection(searchParams.get("direction")|| "Direction")
     },[searchParams]
     )
-    
-
-
-
-
-    
-
 
     const search = () => {
         const fromValue = document.querySelector("input[name='from']").value;
         const toValue = document.querySelector("input[name='to']").value;
         const sortByValue = document.querySelector("select[name='sortBy']").value;
         const directionValue = document.querySelector("select[name='direction']").value;
-
-        // if (directionValue !== "Direction") {
-        //     setDirection(directionValue);
-        // }
-        // if (sortByValue !== "Sort By") {
-        //     setSortBy(sortByValue);
-        // }
-        // setFromDate(fromValue);
-        // setToDate(toValue);
         const updatedParams=Object.fromEntries(searchParams);
-        updatedParams.sortBy=sortByValue;
-        updatedParams.direction=directionValue;
+        if (directionValue !== "Direction") {
+            updatedParams.direction=directionValue;
+        }
+        if (sortByValue !== "Sort By") {
+            updatedParams.sortBy=sortByValue;
+        }
+
+        if(fromValue!==""){
         updatedParams.from=fromValue;
+        }
+
+        if(toValue!==""){
         updatedParams.to=toValue;
+        }
+        
         setSearchParams(updatedParams);
     }
 

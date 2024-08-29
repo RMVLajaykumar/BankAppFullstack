@@ -10,6 +10,7 @@ const DepositMoneyModal = ({ show, handleClose }) => {
   const [selectedAccount, setSelectedAccount] = useState('');
   const [amount, setAmount] = useState('');
   const navigate = useNavigate();
+  const [temp,setTemp]=useState(false);
   const[error,setError]=useState(false);
 
   useEffect(() => {
@@ -41,8 +42,8 @@ const DepositMoneyModal = ({ show, handleClose }) => {
     if (selectedAccount && amount) {
       navigate(`/deposit-confirmation/${selectedAccount}/${amount}`);
       handleClose(); 
-    } else {
-      console.error('Please select an account and enter an amount.');
+    }  else{
+      alert('Please select account and and enter amount.');
     }
   };
 
@@ -80,9 +81,20 @@ const DepositMoneyModal = ({ show, handleClose }) => {
               type="number"
               placeholder="Enter amount"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value <= 0 || e.target.value<500 ) {
+                  setTemp(true);
+                } 
+                else {
+                  setTemp(false);
+                }
+                setAmount(e.target.value);
+              }}
             />
           </Form.Group>
+          {temp && (
+          <p style={{ color: 'red' }}>Amount should be positive and minimum of 500</p>
+        )}
 
         </Form>
         </>)}
@@ -97,7 +109,7 @@ const DepositMoneyModal = ({ show, handleClose }) => {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleDeposit} disabled={error}>
+        <Button variant="primary" onClick={handleDeposit} disabled={error || temp}>
           Deposit
         </Button>
       </BootstrapModal.Footer>

@@ -21,6 +21,9 @@ const ViewPassbookModal = ({
     if (selectedOption) {
       navigate(`/user-dashboard/view-passbook/${selectedOption}`);
     }
+    else{
+      alert('Please fill out all fields.');
+    }
   };
 
   useEffect(() => {
