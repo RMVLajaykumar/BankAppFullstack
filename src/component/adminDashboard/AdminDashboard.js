@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MyVerticallyCenteredModal from '../adminDashboard/adminComponents/addCustomer/MyVerticallyCenteredModal';
-import AccountVerticalCenteredModal from '../adminDashboard/adminComponents/addAccount/AccountVerticalCenteredModal'; 
+import MyVerticallyCenteredModal from './adminComponents/addCustomer/AddCustomerModal';
+import AccountVerticalCenteredModal from './adminComponents/addAccount/AddAccountModal';
 import { checkUserIDExists, addBankAccount } from '../../services/adminServices'; 
 import './AdminDashboard.css';
 import { verifyAdmin } from '../../services/authServices';
